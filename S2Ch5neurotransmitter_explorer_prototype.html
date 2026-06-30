@@ -1,14 +1,62 @@
-
-<h2 class="sr-only">Interactive explorer: tap a neurotransmitter to see its function, effects of too little or too much, and which drugs affect it</h2>
-<div style="padding:1rem 0;">
-<div id="nt-buttons" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.25rem;"></div>
-<div id="nt-detail"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neurotransmitter Explorer</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+<style>
+  :root {
+    --surface-1: #f4f3ee;
+    --surface-2: #ffffff;
+    --text-primary: #1a1a1a;
+    --text-secondary: #5f5e5a;
+    --border: #d3d1c7;
+    --radius: 8px;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #fafaf7;
+    color: var(--text-primary);
+    margin: 0;
+    padding: 2rem 1rem;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; }
+  h1 { font-size: 20px; font-weight: 600; margin: 0 0 1.5rem; }
+  #nt-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.25rem; }
+  button {
+    font-family: inherit;
+    font-size: 14px;
+    padding: 8px 14px;
+    border-radius: var(--radius);
+    border: 0.5px solid var(--border);
+    background: var(--surface-2);
+    cursor: pointer;
+  }
+  button:hover { background: var(--surface-1); }
+  .card { background: var(--surface-2); border: 0.5px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+  .label { font-size: 13px; color: var(--text-secondary); margin: 0 0 4px; }
+  .role { font-size: 15px; margin: 0 0 1rem; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem; }
+  .box { background: var(--surface-1); border-radius: var(--radius); padding: 0.75rem; }
+  .boxlabel { font-size: 12px; color: var(--text-secondary); margin: 0 0 4px; display: flex; align-items: center; gap: 4px; }
+  .boxtext { font-size: 13px; margin: 0; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { background: var(--surface-1); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 3px 10px; font-size: 13px; }
+  @media (max-width: 480px) { .grid2 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Neurotransmitter explorer</h1>
+  <div id="nt-buttons"></div>
+  <div id="nt-detail"></div>
 </div>
+
 <script>
 const NT = {
   dopamine: {
     name: "Dopamine",
-    color: "purple",
     role: "Reward, motivation, pleasure, movement",
     low: "Reduced motivation, low mood, in severe cases linked to Parkinson's-type movement problems",
     high: "Euphoria, in some cases linked to psychosis-like symptoms",
@@ -16,7 +64,6 @@ const NT = {
   },
   serotonin: {
     name: "Serotonin",
-    color: "teal",
     role: "Mood, sleep, appetite, emotional regulation",
     low: "Linked to low mood and depression",
     high: "Can cause agitation, confusion, rapid heart rate (serotonin syndrome, rare)",
@@ -24,7 +71,6 @@ const NT = {
   },
   gaba: {
     name: "GABA",
-    color: "blue",
     role: "Calming signals, slows down neural activity",
     low: "Anxiety, difficulty relaxing, overactive alarm system",
     high: "Sedation, slowed reactions, poor coordination",
@@ -32,7 +78,6 @@ const NT = {
   },
   noradrenaline: {
     name: "Noradrenaline",
-    color: "coral",
     role: "Alertness, attention, fight-or-flight response",
     low: "Low energy, poor concentration",
     high: "Anxiety, racing heart, panic-like symptoms",
@@ -40,7 +85,6 @@ const NT = {
   },
   endorphins: {
     name: "Endorphins",
-    color: "pink",
     role: "Natural pain relief, feelings of wellbeing",
     low: "Increased pain sensitivity, lower mood",
     high: "Euphoria, in overdose: dangerously slowed breathing",
@@ -48,7 +92,6 @@ const NT = {
   },
   glutamate: {
     name: "Glutamate",
-    color: "amber",
     role: "Stimulating signals, learning and memory",
     low: "Slowed thinking, poor memory formation",
     high: "Overstimulation, in extreme cases linked to seizures",
@@ -66,40 +109,36 @@ function renderButtons() {
     const nt = NT[key];
     const btn = document.createElement('button');
     btn.textContent = nt.name;
-    const isActive = key === active;
-    btn.style.cssText = isActive
-      ? `background:var(--bg-${mapColor(nt.color)});color:var(--text-${mapColor(nt.color)});border-color:var(--border-${mapColor(nt.color)});font-weight:500;`
-      : '';
+    if (key === active) {
+      btn.style.background = '#e6f1fb';
+      btn.style.fontWeight = '600';
+      btn.style.borderColor = '#85b7eb';
+    }
     btn.onclick = () => { active = key; render(); };
     btnWrap.appendChild(btn);
   });
-}
-
-function mapColor(c) {
-  const allowed = ['accent','danger','success','warning'];
-  return allowed.includes(c) ? c : 'accent';
 }
 
 function render() {
   renderButtons();
   const nt = NT[active];
   detail.innerHTML = `
-    <div style="background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:1.25rem;">
-      <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px;">Function</p>
-      <p style="font-size:15px;margin:0 0 1rem;">${nt.role}</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem;">
-        <div style="background:var(--surface-1);border-radius:var(--radius);padding:0.75rem;">
-          <p style="font-size:12px;color:var(--text-secondary);margin:0 0 4px;display:flex;align-items:center;gap:4px;"><i class="ti ti-arrow-down" style="font-size:14px;" aria-hidden="true"></i>Too little</p>
-          <p style="font-size:13px;margin:0;">${nt.low}</p>
+    <div class="card">
+      <p class="label">Function</p>
+      <p class="role">${nt.role}</p>
+      <div class="grid2">
+        <div class="box">
+          <p class="boxlabel"><i class="ti ti-arrow-down"></i>Too little</p>
+          <p class="boxtext">${nt.low}</p>
         </div>
-        <div style="background:var(--surface-1);border-radius:var(--radius);padding:0.75rem;">
-          <p style="font-size:12px;color:var(--text-secondary);margin:0 0 4px;display:flex;align-items:center;gap:4px;"><i class="ti ti-arrow-up" style="font-size:14px;" aria-hidden="true"></i>Too much</p>
-          <p style="font-size:13px;margin:0;">${nt.high}</p>
+        <div class="box">
+          <p class="boxlabel"><i class="ti ti-arrow-up"></i>Too much</p>
+          <p class="boxtext">${nt.high}</p>
         </div>
       </div>
-      <p style="font-size:13px;color:var(--text-secondary);margin:0 0 6px;">Affected by</p>
-      <div style="display:flex;flex-wrap:wrap;gap:6px;">
-        ${nt.drugs.map(d => `<span style="background:var(--surface-1);border:0.5px solid var(--border);border-radius:var(--radius);padding:3px 10px;font-size:13px;">${d}</span>`).join('')}
+      <p class="label">Affected by</p>
+      <div class="tags">
+        ${nt.drugs.map(d => `<span class="tag">${d}</span>`).join('')}
       </div>
     </div>
   `;
@@ -107,3 +146,5 @@ function render() {
 
 render();
 </script>
+</body>
+</html>
