@@ -55,48 +55,12 @@
 
 <script>
 const NT = {
-  dopamine: {
-    name: "Dopamine",
-    role: "Reward, motivation, pleasure, movement",
-    low: "Reduced motivation, low mood, in severe cases linked to Parkinson's-type movement problems",
-    high: "Euphoria, in some cases linked to psychosis-like symptoms",
-    drugs: ["Alcohol", "Nicotine", "Cocaine", "Amphetamines", "Opioids"]
-  },
-  serotonin: {
-    name: "Serotonin",
-    role: "Mood, sleep, appetite, emotional regulation",
-    low: "Linked to low mood and depression",
-    high: "Can cause agitation, confusion, rapid heart rate (serotonin syndrome, rare)",
-    drugs: ["Nicotine", "Psychedelics (LSD, psilocybin)"]
-  },
-  gaba: {
-    name: "GABA",
-    role: "Calming signals, slows down neural activity",
-    low: "Anxiety, difficulty relaxing, overactive alarm system",
-    high: "Sedation, slowed reactions, poor coordination",
-    drugs: ["Alcohol", "Benzodiazepines"]
-  },
-  noradrenaline: {
-    name: "Noradrenaline",
-    role: "Alertness, attention, fight-or-flight response",
-    low: "Low energy, poor concentration",
-    high: "Anxiety, racing heart, panic-like symptoms",
-    drugs: ["Nicotine", "Cocaine", "Amphetamines"]
-  },
-  endorphins: {
-    name: "Endorphins",
-    role: "Natural pain relief, feelings of wellbeing",
-    low: "Increased pain sensitivity, lower mood",
-    high: "Euphoria, in overdose: dangerously slowed breathing",
-    drugs: ["Alcohol", "Opioids"]
-  },
-  glutamate: {
-    name: "Glutamate",
-    role: "Stimulating signals, learning and memory",
-    low: "Slowed thinking, poor memory formation",
-    high: "Overstimulation, in extreme cases linked to seizures",
-    drugs: ["Alcohol (suppresses it)"]
-  }
+  dopamine: { name: "Dopamine", role: "Reward, motivation, pleasure, movement", low: "Reduced motivation, low mood, in severe cases linked to Parkinson's-type movement problems", high: "Euphoria, in some cases linked to psychosis-like symptoms", drugs: ["Alcohol", "Nicotine", "Cocaine", "Amphetamines", "Opioids"] },
+  serotonin: { name: "Serotonin", role: "Mood, sleep, appetite, emotional regulation", low: "Linked to low mood and depression", high: "Can cause agitation, confusion, rapid heart rate (serotonin syndrome, rare)", drugs: ["Nicotine", "Psychedelics (LSD, psilocybin)"] },
+  gaba: { name: "GABA", role: "Calming signals, slows down neural activity", low: "Anxiety, difficulty relaxing, overactive alarm system", high: "Sedation, slowed reactions, poor coordination", drugs: ["Alcohol", "Benzodiazepines"] },
+  noradrenaline: { name: "Noradrenaline", role: "Alertness, attention, fight-or-flight response", low: "Low energy, poor concentration", high: "Anxiety, racing heart, panic-like symptoms", drugs: ["Nicotine", "Cocaine", "Amphetamines"] },
+  endorphins: { name: "Endorphins", role: "Natural pain relief, feelings of wellbeing", low: "Increased pain sensitivity, lower mood", high: "Euphoria, in overdose: dangerously slowed breathing", drugs: ["Alcohol", "Opioids"] },
+  glutamate: { name: "Glutamate", role: "Stimulating signals, learning and memory", low: "Slowed thinking, poor memory formation", high: "Overstimulation, in extreme cases linked to seizures", drugs: ["Alcohol (suppresses it)"] }
 };
 
 const btnWrap = document.getElementById('nt-buttons');
